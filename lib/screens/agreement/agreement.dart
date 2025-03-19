@@ -22,10 +22,10 @@ class _AgreementState extends State<Agreement> {
   final TextEditingController tenantPhoneController = TextEditingController();
   final TextEditingController tenantEmailController = TextEditingController();
   final TextEditingController rentAmountController = TextEditingController();
-  final TextEditingController securityDepositController =
-      TextEditingController();
+  final TextEditingController securityDepositController = TextEditingController();
   final TextEditingController fromDateController = TextEditingController();
   final TextEditingController toDateController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,6 +100,36 @@ class _AgreementState extends State<Agreement> {
                     _buildTextField("Full Name", tenantNameController),
                     _buildTextField("Phone Number", tenantPhoneController),
                     _buildTextField("Email", tenantEmailController),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 16.0),
+            Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(width: 2, color: Colors.black),
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    offset: Offset(0, 4),
+                    blurRadius: 10,
+                    spreadRadius: 2,
+                    color: Colors.black.withOpacity(0.2),
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
+                child: Column(
+                  children: [
+                    _buildSectionTitle("Rental Property Details"),
+                    SizedBox(height: 8),
+                    _buildTextField("Rental Address", addressController),
                   ],
                 ),
               ),
@@ -335,6 +365,7 @@ class _AgreementState extends State<Agreement> {
     securityDepositController.clear();
     fromDateController.clear();
     toDateController.clear();
+    addressController.clear();
   }
 
   Future<void> downloadPDF() async {
@@ -373,26 +404,26 @@ class _AgreementState extends State<Agreement> {
                     crossAxisAlignment: p.CrossAxisAlignment.start,
                     children: [
                       p.Text(
-                        "This Rental Agreement is made between $ownerNameController and $tenantNameController for the property located at __________.",
+                        "This Rental Agreement is made between $ownerNameController and $tenantNameController for the property located at $addressController.",
                         style: p.TextStyle(fontSize: 14),
                       ),
                       p.SizedBox(height: 10),
                       p.Text(
-                        "The Agreement is effective from ________ to ________.",
+                        "The Agreement is effective from $fromDateController to $toDateController.",
                         style: p.TextStyle(fontSize: 14),
                       ),
                       p.SizedBox(height: 10),
                       p.Text(
-                        "The Monthly rent is ₹ ________",
+                        "The Monthly rent is RS $rentAmountController",
                         style: p.TextStyle(fontSize: 14),
                       ),
                       p.Text(
-                        "and Security Deposit is ₹ ________",
+                        "and Security Deposit is RS $securityDepositController",
                         style: p.TextStyle(fontSize: 14),
                       ),
                       p.SizedBox(height: 10),
-                      p.Text("Owner Contact: __________"),
-                      p.Text("Tenant Contact: __________"),
+                      p.Text("Owner Contact: $ownerPhoneController , $ownerEmailController"),
+                      p.Text("Tenant Contact: $tenantPhoneController , $tenantEmailController"),
                     ],
                   ),
                 ),
