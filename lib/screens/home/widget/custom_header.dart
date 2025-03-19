@@ -37,7 +37,7 @@ class CustomHeader extends StatelessWidget {
             icon: Icon(Icons.smart_toy, color: Colors.white),
             label: Text("Chatbot", style: TextStyle(color: Colors.white)),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue.shade900,
+              backgroundColor: AppColors.Chatbot,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),

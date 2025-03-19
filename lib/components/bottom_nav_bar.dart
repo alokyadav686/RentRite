@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rentrite/contants/colors.dart';
+import 'package:rentrite/screens/agreement/agreement.dart';
 import 'package:rentrite/screens/home/homescreen.dart';
+import 'package:rentrite/screens/lawyers/lawyers.dart';
 import 'package:rentrite/services/splash/splashscreen.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -13,9 +15,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   
   final List<Widget> _screens = [
-    Homescreen(),
-    Homescreen(),
-    Homescreen(),
+    HomeScreen(),
+    Lawyers(),
+    Agreement(),
     Splashscreen(),
   ];
 
@@ -28,6 +30,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.White,
       body: _screens[_selectedIndex],
       bottomNavigationBar: CustomBottomNavigationBar(
         selectedIndex: _selectedIndex,
