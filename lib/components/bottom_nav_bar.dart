@@ -3,7 +3,7 @@ import 'package:rentrite/contants/colors.dart';
 import 'package:rentrite/screens/agreement/agreement.dart';
 import 'package:rentrite/screens/home/homescreen.dart';
 import 'package:rentrite/screens/lawyers/lawyers.dart';
-import 'package:rentrite/services/splash/splashscreen.dart';
+import 'package:rentrite/screens/profile/profile.dart';
 
 class BottomNavBar extends StatefulWidget {
   @override
@@ -18,7 +18,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     HomeScreen(),
     Lawyers(),
     Agreement(),
-    Splashscreen(),
+    ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {

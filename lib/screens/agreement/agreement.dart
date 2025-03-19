@@ -168,23 +168,38 @@ class _AgreementState extends State<Agreement> {
             SizedBox(height: 16.0),
 
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    _clearForm();
-                  },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                  child: Text("Clear Form"),
+                OutlinedButton(
+                  onPressed: _clearForm,
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(color: AppColors.primaryColor),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  ),
+                  child: Text(
+                    "Clear Form",
+                    style: TextStyle(
+                      color: AppColors.primaryColor,
+                      fontSize: 24,
+                    ),
+                  ),
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    // Implement PDF download functionality
-                  },
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.textColor,
+                    backgroundColor: AppColors.primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   ),
-                  child: Text("Download PDF"),
+                  child: Text(
+                    "Download PDF",
+                    style: TextStyle(color: Colors.white, fontSize: 24),
+                  ),
                 ),
               ],
             ),
@@ -229,6 +244,22 @@ class _AgreementState extends State<Agreement> {
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           hintText: hint,
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: AppColors.textColor, width: 1),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: AppColors.textColor, width: 1),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: AppColors.textColor, width: 1),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: AppColors.textColor, width: 1),
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
       ),
     );
@@ -245,7 +276,26 @@ class _AgreementState extends State<Agreement> {
         controller: controller,
         decoration: InputDecoration(
           labelText: label,
-          border: OutlineInputBorder(),
+          border: OutlineInputBorder(
+            borderSide: BorderSide(color: AppColors.textColor, width: 1),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: AppColors.textColor, width: 1),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: AppColors.textColor, width: 1),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: AppColors.textColor, width: 1),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: AppColors.textColor, width: 1),
+            borderRadius: BorderRadius.circular(10),
+          ),
           suffixIcon: IconButton(
             icon: Icon(Icons.calendar_today),
             onPressed: () async {
