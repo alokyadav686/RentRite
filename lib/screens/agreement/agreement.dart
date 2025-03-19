@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:rentrite/contants/colors.dart';
 import 'package:rentrite/screens/home/widget/custom_header.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as p;
+import 'package:path_provider/path_provider.dart';
 
 class Agreement extends StatefulWidget {
   const Agreement({super.key});
@@ -188,7 +193,10 @@ class _AgreementState extends State<Agreement> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    print("object");
+                    downloadPDF();
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primaryColor,
                     shape: RoundedRectangleBorder(
@@ -327,5 +335,103 @@ class _AgreementState extends State<Agreement> {
     securityDepositController.clear();
     fromDateController.clear();
     toDateController.clear();
+  }
+
+  Future<void> downloadPDF() async {
+    final pdf = p.Document();
+
+    pdf.addPage(
+      p.Page(
+        pageFormat: PdfPageFormat.a4,
+        build: (context) {
+          return p.Container(
+            padding: p.EdgeInsets.all(20),
+            decoration: p.BoxDecoration(
+              color: PdfColors.lightBlue100, // Light Blue background
+            ),
+            child: p.Column(
+              crossAxisAlignment: p.CrossAxisAlignment.center,
+              children: [
+                // Title
+                p.Text(
+                  "Rental Agreement",
+                  style: p.TextStyle(
+                    fontSize: 24,
+                    fontWeight: p.FontWeight.bold,
+                  ),
+                ),
+                p.SizedBox(height: 10),
+
+                // White Container Box
+                p.Container(
+                  padding: p.EdgeInsets.all(15),
+                  decoration: p.BoxDecoration(
+                    color: PdfColors.white,
+                    borderRadius: p.BorderRadius.all(p.Radius.circular(10)),
+                  ),
+                  child: p.Column(
+                    crossAxisAlignment: p.CrossAxisAlignment.start,
+                    children: [
+                      p.Text(
+                        "This Rental Agreement is made between $ownerNameController and $tenantNameController for the property located at __________.",
+                        style: p.TextStyle(fontSize: 14),
+                      ),
+                      p.SizedBox(height: 10),
+                      p.Text(
+                        "The Agreement is effective from ________ to ________.",
+                        style: p.TextStyle(fontSize: 14),
+                      ),
+                      p.SizedBox(height: 10),
+                      p.Text(
+                        "The Monthly rent is ₹ ________",
+                        style: p.TextStyle(fontSize: 14),
+                      ),
+                      p.Text(
+                        "and Security Deposit is ₹ ________",
+                        style: p.TextStyle(fontSize: 14),
+                      ),
+                      p.SizedBox(height: 10),
+                      p.Text("Owner Contact: __________"),
+                      p.Text("Tenant Contact: __________"),
+                    ],
+                  ),
+                ),
+                p.SizedBox(height: 20),
+
+                // Signatures
+                p.Text(
+                  "Signatures:",
+                  style: p.TextStyle(
+                    fontSize: 16,
+                    fontWeight: p.FontWeight.bold,
+                  ),
+                ),
+                p.SizedBox(height: 10),
+                p.Row(
+                  mainAxisAlignment: p.MainAxisAlignment.spaceBetween,
+                  children: [
+                    p.Column(
+                      children: [p.Text("________________"), p.Text("Owner")],
+                    ),
+                    p.Column(
+                      children: [p.Text("________________"), p.Text("Tenant")],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+
+    Directory root = await getApplicationDocumentsDirectory();
+    String path = '${root.path}/agreement.pdf';
+    final file = File(path);
+
+    await file.writeAsBytes(await pdf.save());
+    print("PDF Saved at: $path");
+    print("$root");
+    print("$file");
   }
 }
