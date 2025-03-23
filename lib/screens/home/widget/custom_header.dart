@@ -3,6 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rentrite/contants/colors.dart';
 
 class CustomHeader extends StatelessWidget {
+  const CustomHeader({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(

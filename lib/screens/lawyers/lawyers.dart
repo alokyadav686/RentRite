@@ -75,6 +75,8 @@ class _LawyersState extends State<Lawyers> {
 }
 
 class SearchBarWidget extends StatelessWidget {
+  const SearchBarWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -113,7 +115,7 @@ class SearchBarWidget extends StatelessWidget {
 class LawyerCard extends StatelessWidget {
   final Map<String, dynamic> lawyerData;
 
-  const LawyerCard({Key? key, required this.lawyerData}) : super(key: key);
+  const LawyerCard({super.key, required this.lawyerData});
 
   @override
   Widget build(BuildContext context) {

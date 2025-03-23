@@ -176,6 +176,8 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class TestimonialWidget extends StatelessWidget {
+  const TestimonialWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -204,6 +206,8 @@ class TestimonialWidget extends StatelessWidget {
 }
 
 class CTASection extends StatelessWidget {
+  const CTASection({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -251,6 +255,8 @@ class CTASection extends StatelessWidget {
 }
 
 class Footer extends StatelessWidget {
+  const Footer({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(

@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rentrite/contants/colors.dart';
 import 'package:rentrite/screens/home/widget/custom_header.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as p;
 import 'package:path_provider/path_provider.dart';
+import 'package:open_file/open_file.dart';
 
 class Agreement extends StatefulWidget {
   const Agreement({super.key});
@@ -22,7 +24,8 @@ class _AgreementState extends State<Agreement> {
   final TextEditingController tenantPhoneController = TextEditingController();
   final TextEditingController tenantEmailController = TextEditingController();
   final TextEditingController rentAmountController = TextEditingController();
-  final TextEditingController securityDepositController = TextEditingController();
+  final TextEditingController securityDepositController =
+      TextEditingController();
   final TextEditingController fromDateController = TextEditingController();
   final TextEditingController toDateController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
@@ -369,31 +372,34 @@ class _AgreementState extends State<Agreement> {
   }
 
   Future<void> downloadPDF() async {
+    final ttf = await rootBundle.load("assets/fonts/NotoSans-Regular.ttf");
+    final font = p.Font.ttf(ttf);
     final pdf = p.Document();
 
     pdf.addPage(
       p.Page(
-        pageFormat: PdfPageFormat.a4,
+        pageFormat: PdfPageFormat.a4.applyMargin(
+          left: 20,
+          right: 20,
+          top: 20,
+          bottom: 20,
+        ),
         build: (context) {
           return p.Container(
             padding: p.EdgeInsets.all(20),
-            decoration: p.BoxDecoration(
-              color: PdfColors.lightBlue100, // Light Blue background
-            ),
+            decoration: p.BoxDecoration(color: PdfColors.white),
             child: p.Column(
-              crossAxisAlignment: p.CrossAxisAlignment.center,
+              crossAxisAlignment: p.CrossAxisAlignment.start,
               children: [
-                // Title
                 p.Text(
                   "Rental Agreement",
                   style: p.TextStyle(
-                    fontSize: 24,
+                    fontSize: 48,
                     fontWeight: p.FontWeight.bold,
                   ),
                 ),
                 p.SizedBox(height: 10),
 
-                // White Container Box
                 p.Container(
                   padding: p.EdgeInsets.all(15),
                   decoration: p.BoxDecoration(
@@ -403,49 +409,192 @@ class _AgreementState extends State<Agreement> {
                   child: p.Column(
                     crossAxisAlignment: p.CrossAxisAlignment.start,
                     children: [
-                      p.Text(
-                        "This Rental Agreement is made between $ownerNameController and $tenantNameController for the property located at $addressController.",
-                        style: p.TextStyle(fontSize: 14),
+                      p.RichText(
+                        text: p.TextSpan(
+                          children: [
+                            p.TextSpan(
+                              text: "This Rental Agreement is made between ",
+                              style: p.TextStyle(fontSize: 20),
+                            ),
+                            p.TextSpan(
+                              text: "${ownerNameController.text} ",
+                              style: p.TextStyle(
+                                fontSize: 20,
+                                fontWeight: p.FontWeight.bold,
+                              ),
+                            ),
+                            p.TextSpan(
+                              text: "and ",
+                              style: p.TextStyle(fontSize: 20),
+                            ),
+                            p.TextSpan(
+                              text: "${tenantNameController.text} ",
+                              style: p.TextStyle(
+                                fontSize: 20,
+                                fontWeight: p.FontWeight.bold,
+                              ),
+                            ),
+                            p.TextSpan(
+                              text: "for the property located at ",
+                              style: p.TextStyle(fontSize: 20),
+                            ),
+                            p.TextSpan(
+                              text: "${addressController.text}.",
+                              style: p.TextStyle(
+                                fontSize: 20,
+                                fontWeight: p.FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       p.SizedBox(height: 10),
-                      p.Text(
-                        "The Agreement is effective from $fromDateController to $toDateController.",
-                        style: p.TextStyle(fontSize: 14),
+                      p.RichText(
+                        text: p.TextSpan(
+                          children: [
+                            p.TextSpan(
+                              text: "The Agreement is effective from ",
+                              style: p.TextStyle(fontSize: 20),
+                            ),
+                            p.TextSpan(
+                              text: "${fromDateController.text} ",
+                              style: p.TextStyle(
+                                fontSize: 20,
+                                fontWeight: p.FontWeight.bold,
+                              ),
+                            ),
+                            p.TextSpan(
+                              text: "to ",
+                              style: p.TextStyle(fontSize: 20),
+                            ),
+                            p.TextSpan(
+                              text: "${toDateController.text}.",
+                              style: p.TextStyle(
+                                fontSize: 20,
+                                fontWeight: p.FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       p.SizedBox(height: 10),
+
+                      p.RichText(
+                        text: p.TextSpan(
+                          children: [
+                            p.TextSpan(
+                              text: "The Monthly rent is ",
+                              style: p.TextStyle(fontSize: 20),
+                            ),
+                            p.TextSpan(
+                              text: "₹ ",
+                              style: p.TextStyle(fontSize: 20, font: font),
+                            ),
+                            p.TextSpan(
+                              text: "${rentAmountController.text}",
+                              style: p.TextStyle(
+                                fontSize: 20,
+                                fontWeight: p.FontWeight.bold,
+                              ),
+                            ),
+                            p.TextSpan(
+                              text: " and Security Deposit is ",
+                              style: p.TextStyle(fontSize: 20),
+                            ),
+                            p.TextSpan(
+                              text: "₹ ",
+                              style: p.TextStyle(fontSize: 20, font: font),
+                            ),
+                            p.TextSpan(
+                              text: "${securityDepositController.text}.",
+                              style: p.TextStyle(
+                                fontSize: 20,
+                                fontWeight: p.FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      p.SizedBox(height: 15),
+
+                      // Contacts
                       p.Text(
-                        "The Monthly rent is RS $rentAmountController",
-                        style: p.TextStyle(fontSize: 14),
+                        "Owner Contact:",
+                        style: p.TextStyle(
+                          fontSize: 22,
+                          fontWeight: p.FontWeight.bold,
+                        ),
                       ),
                       p.Text(
-                        "and Security Deposit is RS $securityDepositController",
-                        style: p.TextStyle(fontSize: 14),
+                        "${ownerPhoneController.text}, ${ownerEmailController.text}",
+                        style: p.TextStyle(fontSize: 20),
                       ),
-                      p.SizedBox(height: 10),
-                      p.Text("Owner Contact: $ownerPhoneController , $ownerEmailController"),
-                      p.Text("Tenant Contact: $tenantPhoneController , $tenantEmailController"),
+
+                      p.Text(
+                        "Tenant Contact:",
+                        style: p.TextStyle(
+                          fontSize: 20,
+                          fontWeight: p.FontWeight.bold,
+                        ),
+                      ),
+                      p.Text(
+                        "${tenantPhoneController.text}, ${tenantEmailController.text}",
+                        style: p.TextStyle(fontSize: 20),
+                      ),
                     ],
                   ),
                 ),
                 p.SizedBox(height: 20),
 
-                // Signatures
                 p.Text(
                   "Signatures:",
                   style: p.TextStyle(
-                    fontSize: 16,
+                    fontSize: 24,
                     fontWeight: p.FontWeight.bold,
                   ),
                 ),
                 p.SizedBox(height: 10),
+
                 p.Row(
                   mainAxisAlignment: p.MainAxisAlignment.spaceBetween,
                   children: [
                     p.Column(
-                      children: [p.Text("________________"), p.Text("Owner")],
+                      children: [
+                        p.Text(
+                          "________________",
+                          style: p.TextStyle(
+                            fontSize: 18,
+                            fontWeight: p.FontWeight.bold,
+                          ),
+                        ),
+                        p.Text(
+                          "Owner",
+                          style: p.TextStyle(
+                            fontSize: 18,
+                            fontWeight: p.FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
+                    p.SizedBox(width: 50),
                     p.Column(
-                      children: [p.Text("________________"), p.Text("Tenant")],
+                      children: [
+                        p.Text(
+                          "________________",
+                          style: p.TextStyle(
+                            fontSize: 18,
+                            fontWeight: p.FontWeight.bold,
+                          ),
+                        ),
+                        p.Text(
+                          "Tenant",
+                          style: p.TextStyle(
+                            fontSize: 18,
+                            fontWeight: p.FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -464,5 +613,6 @@ class _AgreementState extends State<Agreement> {
     print("PDF Saved at: $path");
     print("$root");
     print("$file");
+    OpenFile.open(path);
   }
 }

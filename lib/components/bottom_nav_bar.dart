@@ -6,6 +6,8 @@ import 'package:rentrite/screens/lawyers/lawyers.dart';
 import 'package:rentrite/screens/profile/profile.dart';
 
 class BottomNavBar extends StatefulWidget {
+  const BottomNavBar({super.key});
+
   @override
   _BottomNavBarState createState() => _BottomNavBarState();
 }
@@ -47,8 +49,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
   const CustomBottomNavigationBar({
     required this.selectedIndex,
     required this.onItemSelected,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
