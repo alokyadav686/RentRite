@@ -7,5 +7,6 @@ class AppColors{
   static const Color CTASection = Color.fromRGBO(98, 98, 98, 1);
   static const Color Chatbot = Color.fromRGBO(0, 112, 204, 1);
   static const Color textColor = Color.fromRGBO(1, 0, 248, 1);
+  static const Color chatbot_background = Color.fromRGBO(206, 229, 255, 1);
 
 }

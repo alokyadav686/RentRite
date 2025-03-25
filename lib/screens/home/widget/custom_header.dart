@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rentrite/contants/colors.dart';
+import 'package:rentrite/screens/chatbot/chatbot.dart';
 
 class CustomHeader extends StatelessWidget {
   const CustomHeader({super.key});
@@ -35,7 +36,10 @@ class CustomHeader extends StatelessWidget {
           ),
 
           ElevatedButton.icon(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>Chatbot())); 
+
+            },
             icon: Icon(Icons.smart_toy, color: Colors.white),
             label: Text("Chatbot", style: TextStyle(color: Colors.white)),
             style: ElevatedButton.styleFrom(

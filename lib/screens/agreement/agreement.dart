@@ -491,7 +491,7 @@ class _AgreementState extends State<Agreement> {
                               style: p.TextStyle(fontSize: 20, font: font),
                             ),
                             p.TextSpan(
-                              text: "${rentAmountController.text}",
+                              text: rentAmountController.text,
                               style: p.TextStyle(
                                 fontSize: 20,
                                 fontWeight: p.FontWeight.bold,
